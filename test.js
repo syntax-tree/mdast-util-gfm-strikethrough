@@ -2,7 +2,7 @@ var test = require('tape')
 var fromMarkdown = require('mdast-util-from-markdown')
 var toMarkdown = require('mdast-util-to-markdown')
 var removePosition = require('unist-util-remove-position')
-var syntax = require('micromark-extension-gfm-strikethrough')
+var syntax = require('micromark-extension-gfm-strikethrough')()
 var strikethrough = require('.')
 
 test('markdown -> mdast', function (t) {
