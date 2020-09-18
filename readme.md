@@ -12,7 +12,7 @@ Extension for [`mdast-util-from-markdown`][from-markdown] and/or
 [`mdast-util-to-markdown`][to-markdown] to support GitHub flavored markdown
 strikethrough (~~like this~~) in **[mdast][]**.
 When parsing (`from-markdown`), must be combined with
-[`micromark-extension-gfm-strikethrough`][extension-strikethrough].
+[`micromark-extension-gfm-strikethrough`][extension].
 
 You probably shouldn’t use this package directly, but instead use `remark-gfm`
 with **[remark][]**.
@@ -32,13 +32,13 @@ Say our script, `example.js`, looks as follows:
 ```js
 var fromMarkdown = require('mdast-util-from-markdown')
 var toMarkdown = require('mdast-util-to-markdown')
-var strikethroughSyntax = require('micromark-extension-gfm-strikethrough')
+var syntax = require('micromark-extension-gfm-strikethrough')
 var strikethrough = require('mdast-util-gfm-strikethrough')
 
 var doc = '*Emphasis*, **importance**, and ~~strikethrough~~.'
 
 var tree = fromMarkdown(doc, {
-  extensions: [strikethroughSyntax],
+  extensions: [syntax()],
   mdastExtensions: [strikethrough.fromMarkdown]
 })
 
@@ -97,7 +97,7 @@ for [`mdast-util-from-markdown`][from-markdown] and
     — remark plugin to support GFM
 *   [`micromark/micromark`][micromark]
     — the smallest commonmark-compliant markdown parser that exists
-*   [`micromark/micromark-extension-gfm-strikethrough`][extension-strikethrough]
+*   [`micromark/micromark-extension-gfm-strikethrough`][extension]
     — micromark extension to parse GFM strikethrough
 *   [`syntax-tree/mdast-util-from-markdown`][from-markdown]
     — mdast parser using `micromark` to create mdast from markdown
@@ -168,4 +168,4 @@ abide by its terms.
 
 [micromark]: https://github.com/micromark/micromark
 
-[extension-strikethrough]: https://github.com/micromark/micromark-extension-gfm-strikethrough
+[extension]: https://github.com/micromark/micromark-extension-gfm-strikethrough
