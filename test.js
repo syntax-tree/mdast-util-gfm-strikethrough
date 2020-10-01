@@ -21,10 +21,7 @@ test('markdown -> mdast', function (t) {
           type: 'paragraph',
           children: [
             {type: 'text', value: 'a '},
-            {
-              type: 'delete',
-              children: [{type: 'text', value: 'b'}]
-            },
+            {type: 'delete', children: [{type: 'text', value: 'b'}]},
             {type: 'text', value: ' c.'}
           ]
         }
@@ -48,10 +45,7 @@ test('markdown -> mdast', function (t) {
           type: 'paragraph',
           children: [
             {type: 'text', value: 'a '},
-            {
-              type: 'delete',
-              children: [{type: 'text', value: 'b\nc'}]
-            },
+            {type: 'delete', children: [{type: 'text', value: 'b\nc'}]},
             {type: 'text', value: ' d.'}
           ]
         }
@@ -70,16 +64,13 @@ test('mdast -> markdown', function (t) {
         type: 'paragraph',
         children: [
           {type: 'text', value: 'a '},
-          {
-            type: 'delete',
-            children: [{type: 'text', value: 'b'}]
-          },
+          {type: 'delete', children: [{type: 'text', value: 'b'}]},
           {type: 'text', value: ' c.'}
         ]
       },
       {extensions: [strikethrough.toMarkdown]}
     ),
-    'a ~~b~~ c.',
+    'a ~~b~~ c.\n',
     'should serialize strikethrough'
   )
 
@@ -89,16 +80,13 @@ test('mdast -> markdown', function (t) {
         type: 'paragraph',
         children: [
           {type: 'text', value: 'a '},
-          {
-            type: 'delete',
-            children: [{type: 'text', value: 'b\nc'}]
-          },
+          {type: 'delete', children: [{type: 'text', value: 'b\nc'}]},
           {type: 'text', value: ' d.'}
         ]
       },
       {extensions: [strikethrough.toMarkdown]}
     ),
-    'a ~~b\nc~~ d.',
+    'a ~~b\nc~~ d.\n',
     'should serialize strikethrough w/ eols'
   )
 
