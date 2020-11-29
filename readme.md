@@ -120,9 +120,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/syntax-tree/mdast-util-gfm-strikethrough.svg
+[build-badge]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/syntax-tree/mdast-util-gfm-strikethrough
+[build]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-gfm-strikethrough.svg
 
