@@ -14,8 +14,12 @@ strikethrough (~~like this~~) in **[mdast][]**.
 When parsing (`from-markdown`), must be combined with
 [`micromark-extension-gfm-strikethrough`][extension].
 
-You probably shouldn’t use this package directly, but instead use
-[`remark-gfm`][remark-gfm] with **[remark][]**.
+## When to use this
+
+Use this if you’re dealing with the AST manually.
+It’s might be better to use [`remark-gfm`][remark-gfm] with **[remark][]**,
+which includes this but provides a nicer interface and makes it easier to
+combine with hundreds of plugins.
 
 ## Install
 
@@ -30,24 +34,24 @@ npm install mdast-util-gfm-strikethrough
 
 ## Use
 
-Say our script, `example.js`, looks as follows:
+Say our module, `example.js`, looks as follows:
 
 ```js
-var fromMarkdown = require('mdast-util-from-markdown')
-var toMarkdown = require('mdast-util-to-markdown')
-var syntax = require('micromark-extension-gfm-strikethrough')
-var strikethrough = require('mdast-util-gfm-strikethrough')
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
+import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'mdast-util-gfm-strikethrough'
 
-var doc = '*Emphasis*, **importance**, and ~~strikethrough~~.'
+const doc = '*Emphasis*, **importance**, and ~~strikethrough~~.'
 
-var tree = fromMarkdown(doc, {
-  extensions: [syntax()],
-  mdastExtensions: [strikethrough.fromMarkdown]
+const tree = fromMarkdown(doc, {
+  extensions: [gfmStrikethrough()],
+  mdastExtensions: [gfmStrikethroughFromMarkdown]
 })
 
 console.log(tree)
 
-var out = toMarkdown(tree, {extensions: [strikethrough.toMarkdown]})
+const out = toMarkdown(tree, {extensions: [gfmStrikethroughToMarkdown]})
 
 console.log(out)
 ```
@@ -79,13 +83,13 @@ Now, running `node example` yields:
 
 ## API
 
-This package exports the following identifier: `strikethroughFromMarkdown`,
-`strikethroughToMarkdown`.
+This package exports the following identifier: `gfmStrikethroughFromMarkdown`,
+`gfmStrikethroughToMarkdown`.
 There is no default export.
 
-### `strikethroughFromMarkdown`
+### `gfmStrikethroughFromMarkdown`
 
-### `strikethroughToMarkdown`
+### `gfmStrikethroughToMarkdown`
 
 Support strikethrough.
 The exports are extensions, respectively
