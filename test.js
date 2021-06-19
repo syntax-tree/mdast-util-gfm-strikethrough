@@ -1,16 +1,19 @@
-var test = require('tape')
-var fromMarkdown = require('mdast-util-from-markdown')
-var toMarkdown = require('mdast-util-to-markdown')
-var removePosition = require('unist-util-remove-position')
-var syntax = require('micromark-extension-gfm-strikethrough')()
-var strikethrough = require('.')
+import test from 'tape'
+import fromMarkdown from 'mdast-util-from-markdown'
+import toMarkdown from 'mdast-util-to-markdown'
+import {removePosition} from 'unist-util-remove-position'
+import gfmStrikethrough from 'micromark-extension-gfm-strikethrough'
+import {
+  gfmStrikethroughFromMarkdown,
+  gfmStrikethroughToMarkdown
+} from './index.js'
 
 test('markdown -> mdast', function (t) {
   t.deepEqual(
     removePosition(
       fromMarkdown('a ~~b~~ c.', {
-        extensions: [syntax],
-        mdastExtensions: [strikethrough.fromMarkdown]
+        extensions: [gfmStrikethrough()],
+        mdastExtensions: [gfmStrikethroughFromMarkdown]
       }),
       true
     ),
@@ -33,8 +36,8 @@ test('markdown -> mdast', function (t) {
   t.deepEqual(
     removePosition(
       fromMarkdown('a ~~b\nc~~ d.', {
-        extensions: [syntax],
-        mdastExtensions: [strikethrough.fromMarkdown]
+        extensions: [gfmStrikethrough()],
+        mdastExtensions: [gfmStrikethroughFromMarkdown]
       }),
       true
     ),
@@ -68,7 +71,7 @@ test('mdast -> markdown', function (t) {
           {type: 'text', value: ' c.'}
         ]
       },
-      {extensions: [strikethrough.toMarkdown]}
+      {extensions: [gfmStrikethroughToMarkdown]}
     ),
     'a ~~b~~ c.\n',
     'should serialize strikethrough'
@@ -84,7 +87,7 @@ test('mdast -> markdown', function (t) {
           {type: 'text', value: ' d.'}
         ]
       },
-      {extensions: [strikethrough.toMarkdown]}
+      {extensions: [gfmStrikethroughToMarkdown]}
     ),
     'a ~~b\nc~~ d.\n',
     'should serialize strikethrough w/ eols'

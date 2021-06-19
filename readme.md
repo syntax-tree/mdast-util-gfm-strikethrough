@@ -19,6 +19,9 @@ You probably shouldn’t use this package directly, but instead use
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -76,13 +79,13 @@ Now, running `node example` yields:
 
 ## API
 
-### `strikethrough.fromMarkdown`
+This package exports the following identifier: `strikethroughFromMarkdown`,
+`strikethroughToMarkdown`.
+There is no default export.
 
-### `strikethrough.toMarkdown`
+### `strikethroughFromMarkdown`
 
-> Note: the separate extensions are also available at
-> `mdast-util-gfm-strikethrough/from-markdown` and
-> `mdast-util-gfm-strikethrough/to-markdown`.
+### `strikethroughToMarkdown`
 
 Support strikethrough.
 The exports are extensions, respectively
