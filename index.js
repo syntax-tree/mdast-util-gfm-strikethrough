@@ -22,8 +22,8 @@ function exitStrikethrough(token) {
 }
 
 function handleDelete(node, _, context) {
-  var exit = context.enter('emphasis')
-  var value = containerPhrasing(node, context, {before: '~', after: '~'})
+  const exit = context.enter('emphasis')
+  const value = containerPhrasing(node, context, {before: '~', after: '~'})
   exit()
   return '~~' + value + '~~'
 }

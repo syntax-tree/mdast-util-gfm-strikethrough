@@ -8,7 +8,7 @@ import {
   gfmStrikethroughToMarkdown
 } from './index.js'
 
-test('markdown -> mdast', function (t) {
+test('markdown -> mdast', (t) => {
   t.deepEqual(
     removePosition(
       fromMarkdown('a ~~b~~ c.', {
@@ -60,7 +60,7 @@ test('markdown -> mdast', function (t) {
   t.end()
 })
 
-test('mdast -> markdown', function (t) {
+test('mdast -> markdown', (t) => {
   t.deepEqual(
     toMarkdown(
       {
