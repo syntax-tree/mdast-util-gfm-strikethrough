@@ -1,8 +1,8 @@
 import test from 'tape'
-import fromMarkdown from 'mdast-util-from-markdown'
-import toMarkdown from 'mdast-util-to-markdown'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
-import gfmStrikethrough from 'micromark-extension-gfm-strikethrough'
+import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
