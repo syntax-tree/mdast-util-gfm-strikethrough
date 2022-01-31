@@ -7,6 +7,7 @@
  */
 
 import {containerPhrasing} from 'mdast-util-to-markdown/lib/util/container-phrasing.js'
+import {track} from 'mdast-util-to-markdown/lib/util/track.js'
 
 /** @type {FromMarkdownExtension} */
 export const gfmStrikethroughFromMarkdown = {
@@ -37,11 +38,18 @@ function exitStrikethrough(token) {
  * @type {ToMarkdownHandle}
  * @param {Delete} node
  */
-function handleDelete(node, _, context) {
+function handleDelete(node, _, context, safeOptions) {
+  const tracker = track(safeOptions)
   const exit = context.enter('emphasis')
-  const value = containerPhrasing(node, context, {before: '~', after: '~'})
+  let value = tracker.move('~~')
+  value += containerPhrasing(node, context, {
+    ...tracker.current(),
+    before: value,
+    after: '~'
+  })
+  value += tracker.move('~~')
   exit()
-  return '~~' + value + '~~'
+  return value
 }
 
 /** @type {ToMarkdownHandle} */
