@@ -8,41 +8,88 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Extension for [`mdast-util-from-markdown`][from-markdown] and/or
-[`mdast-util-to-markdown`][to-markdown] to support GitHub flavored markdown
-strikethrough (~~like this~~) in **[mdast][]**.
-When parsing (`from-markdown`), must be combined with
-[`micromark-extension-gfm-strikethrough`][extension].
+[mdast][] extensions to parse and serialize [GFM][] strikethrough.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When to use this](#when-to-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`gfmStrikethroughFromMarkdown`](#gfmstrikethroughfrommarkdown)
+    *   [`gfmStrikethroughToMarkdown`](#gfmstrikethroughtomarkdown)
+*   [Syntax tree](#syntax-tree)
+    *   [Nodes](#nodes)
+    *   [Content model](#content-model)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package contains extensions that add support for the strikethrough syntax
+enabled by GFM to [`mdast-util-from-markdown`][mdast-util-from-markdown] and
+[`mdast-util-to-markdown`][mdast-util-to-markdown].
 
 ## When to use this
 
-Use this if you’re dealing with the AST manually.
-It’s might be better to use [`remark-gfm`][remark-gfm] with **[remark][]**,
-which includes this but provides a nicer interface and makes it easier to
-combine with hundreds of plugins.
+These tools are all rather low-level.
+In most cases, you’d want to use [`remark-gfm`][remark-gfm] with remark instead.
+
+When you are working with syntax trees and want all of GFM, use
+[`mdast-util-gfm`][mdast-util-gfm] instead.
+
+When working with `mdast-util-from-markdown`, you must combine this package with
+[`micromark-extension-gfm-strikethrough`][extension].
+
+This utility does not handle how markdown is turned to HTML.
+That’s done by [`mdast-util-to-hast`][mdast-util-to-hast].
+If you want a different element, you should configure that utility.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-gfm-strikethrough
 ```
 
-## Use
-
-Say our module, `example.js`, looks as follows:
+In Deno with [`esm.sh`][esmsh]:
 
 ```js
+import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@1'
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@1?bundle'
+</script>
+```
+
+## Use
+
+Say our document `example.md` contains:
+
+```markdown
+*Emphasis*, **importance**, and ~~strikethrough~~.
+```
+
+…and our module `example.js` looks as follows:
+
+```js
+import fs from 'node:fs/promises'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'mdast-util-gfm-strikethrough'
 
-const doc = '*Emphasis*, **importance**, and ~~strikethrough~~.'
+const doc = await fs.readFile('example.md')
 
 const tree = fromMarkdown(doc, {
   extensions: [gfmStrikethrough()],
@@ -83,38 +130,94 @@ Now, running `node example` yields:
 
 ## API
 
-This package exports the following identifier: `gfmStrikethroughFromMarkdown`,
+This package exports the identifiers `gfmStrikethroughFromMarkdown` and
 `gfmStrikethroughToMarkdown`.
 There is no default export.
 
 ### `gfmStrikethroughFromMarkdown`
 
+Extension for [`mdast-util-from-markdown`][mdast-util-from-markdown].
+
 ### `gfmStrikethroughToMarkdown`
 
-Support strikethrough.
-The exports are extensions, respectively
-for [`mdast-util-from-markdown`][from-markdown] and
-[`mdast-util-to-markdown`][to-markdown].
+Extension for [`mdast-util-to-markdown`][mdast-util-to-markdown].
+
+## Syntax tree
+
+The following interfaces are added to **[mdast][]** by this utility.
+
+### Nodes
+
+#### `Delete`
+
+```idl
+interface Delete <: Parent {
+  type: "delete"
+  children: [TransparentContent]
+}
+```
+
+**Delete** ([**Parent**][dfn-parent]) represents contents that are no longer
+accurate or no longer relevant.
+
+**Delete** can be used where [**static phrasing**][dfn-static-phrasing-content]
+content is expected.
+Its content model is [**transparent**][dfn-transparent-content] content.
+
+For example, the following markdown:
+
+```markdown
+~~alpha~~
+```
+
+Yields:
+
+```js
+{
+  type: 'delete',
+  children: [{type: 'text', value: 'alpha'}]
+}
+```
+
+### Content model
+
+#### `StaticPhrasingContent` (GFM strikethrough)
+
+```idl
+type StaticPhrasingContentGfm = Delete | StaticPhrasingContent
+```
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It does not export additional types.
+
+The `Delete` node type is supported in `@types/mdast` by default.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
+This plugin works with `mdast-util-from-markdown` version 1+ and
+`mdast-util-to-markdown` version 1+.
 
 ## Related
 
-*   [`remarkjs/remark`][remark]
-    — markdown processor powered by plugins
 *   [`remarkjs/remark-gfm`][remark-gfm]
     — remark plugin to support GFM
-*   [`micromark/micromark`][micromark]
-    — the smallest commonmark-compliant markdown parser that exists
+*   [`syntax-tree/mdast-util-gfm`][mdast-util-gfm]
+    — same but all of GFM (autolink literals, footnotes, strikethrough, tables,
+    tasklists)
 *   [`micromark/micromark-extension-gfm-strikethrough`][extension]
     — micromark extension to parse GFM strikethrough
-*   [`syntax-tree/mdast-util-from-markdown`][from-markdown]
-    — mdast parser using `micromark` to create mdast from markdown
-*   [`syntax-tree/mdast-util-to-markdown`][to-markdown]
-    — mdast serializer to create markdown from mdast
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
+ways to get started.
 See [`support.md`][support] for ways to get help.
 
 This project has a [code of conduct][coc].
@@ -155,26 +258,42 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [license]: license
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[health]: https://github.com/syntax-tree/.github
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
-[mdast]: https://github.com/syntax-tree/mdast
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
-[remark]: https://github.com/remarkjs/remark
+[gfm]: https://github.github.com/gfm/
 
 [remark-gfm]: https://github.com/remarkjs/remark-gfm
 
-[from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+[mdast]: https://github.com/syntax-tree/mdast
 
-[to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
+[dfn-transparent-content]: https://github.com/syntax-tree/mdast#transparentcontent
 
-[micromark]: https://github.com/micromark/micromark
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+
+[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
+
+[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
 
 [extension]: https://github.com/micromark/micromark-extension-gfm-strikethrough
+
+[dfn-parent]: https://github.com/syntax-tree/mdast#parent
+
+[dfn-static-phrasing-content]: #staticphrasingcontent-gfm-strikethrough
