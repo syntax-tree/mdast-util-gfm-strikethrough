@@ -93,5 +93,101 @@ test('mdast -> markdown', (t) => {
     'should serialize strikethrough w/ eols'
   )
 
+  t.equal(
+    toMarkdown(
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'link',
+            url: '~a',
+            children: []
+          }
+        ]
+      },
+      {extensions: [gfmStrikethroughToMarkdown]}
+    ),
+    '[](~a)\n',
+    'should not escape tildes in a `destinationLiteral`'
+  )
+
+  t.equal(
+    toMarkdown(
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'link',
+            url: '~a',
+            children: [{type: 'text', value: 'link text'}]
+          }
+        ]
+      },
+      {extensions: [gfmStrikethroughToMarkdown]}
+    ),
+    '[link text](~a)\n',
+    'should not escape tildes in a `destinationRaw`'
+  )
+
+  t.equal(
+    toMarkdown(
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'linkReference',
+            identifier: '~a',
+            referenceType: 'full',
+            children: []
+          }
+        ]
+      },
+      {extensions: [gfmStrikethroughToMarkdown]}
+    ),
+    '[][~a]\n',
+    'should not escape tildes in a `reference`'
+  )
+
+  t.equal(
+    toMarkdown(
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'link',
+            url: '#',
+            title: '~a',
+            children: []
+          }
+        ]
+      },
+      {extensions: [gfmStrikethroughToMarkdown]}
+    ),
+    '[](# "~a")\n',
+    'should not escape tildes in a `title` (double quotes)'
+  )
+
+  t.equal(
+    toMarkdown(
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'link',
+            url: '#',
+            title: '~a',
+            children: []
+          }
+        ]
+      },
+      {
+        quote: "'",
+        extensions: [gfmStrikethroughToMarkdown]
+      }
+    ),
+    "[](# '~a')\n",
+    'should not escape tildes in a `title` (single quotes)'
+  )
+
   t.end()
 })
