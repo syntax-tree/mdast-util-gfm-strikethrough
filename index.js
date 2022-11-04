@@ -19,6 +19,8 @@ export const gfmStrikethroughFromMarkdown = {
 /**
  * List of constructs that occur in phrasing (paragraphs, headings), but cannot
  * contain strikethroughs. So they sort of cancel each other out.
+ *
+ * Note: keep in sync with: <https://github.com/syntax-tree/mdast-util-to-markdown/blob/c47743b/lib/unsafe.js#L11>
  */
 const constructsWithoutStrikethrough = [
   'autolink',
