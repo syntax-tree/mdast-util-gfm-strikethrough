@@ -16,9 +16,28 @@ export const gfmStrikethroughFromMarkdown = {
   exit: {strikethrough: exitStrikethrough}
 }
 
+/**
+ * List of constructs that occur in phrasing (paragraphs, headings), but cannot
+ * contain strikethroughs. So they sort of cancel each other out.
+ */
+const constructsWithoutStrikethrough = [
+  'autolink',
+  'destinationLiteral',
+  'destinationRaw',
+  'reference',
+  'titleQuote',
+  'titleApostrophe'
+]
+
 /** @type {ToMarkdownExtension} */
 export const gfmStrikethroughToMarkdown = {
-  unsafe: [{character: '~', inConstruct: 'phrasing'}],
+  unsafe: [
+    {
+      character: '~',
+      inConstruct: 'phrasing',
+      notInConstruct: constructsWithoutStrikethrough
+    }
+  ],
   handlers: {delete: handleDelete}
 }
 
