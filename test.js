@@ -8,8 +8,15 @@ import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
 } from './index.js'
+import * as mod from './index.js'
 
 test('gfmStrikethroughFromMarkdown', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['gfmStrikethroughFromMarkdown', 'gfmStrikethroughToMarkdown'],
+    'should expose the public api'
+  )
+
   assert.deepEqual(
     removePosition(
       fromMarkdown('a ~~b~~ c.', {
