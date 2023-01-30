@@ -1,5 +1,6 @@
 /**
  * @typedef {import('mdast').Delete} Delete
+ * @typedef {import('mdast-util-from-markdown').CompileContext} CompileContext
  * @typedef {import('mdast-util-from-markdown').Extension} FromMarkdownExtension
  * @typedef {import('mdast-util-from-markdown').Handle} FromMarkdownHandle
  * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
@@ -37,6 +38,7 @@ export const gfmStrikethroughToMarkdown = {
     {
       character: '~',
       inConstruct: 'phrasing',
+      // @ts-expect-error: register.
       notInConstruct: constructsWithoutStrikethrough
     }
   ],
@@ -45,12 +47,18 @@ export const gfmStrikethroughToMarkdown = {
 
 handleDelete.peek = peekDelete
 
-/** @type {FromMarkdownHandle} */
+/**
+ * @this {CompileContext}
+ * @type {FromMarkdownHandle}
+ */
 function enterStrikethrough(token) {
   this.enter({type: 'delete', children: []}, token)
 }
 
-/** @type {FromMarkdownHandle} */
+/**
+ * @this {CompileContext}
+ * @type {FromMarkdownHandle}
+ */
 function exitStrikethrough(token) {
   this.exit(token)
 }
@@ -61,6 +69,7 @@ function exitStrikethrough(token) {
  */
 function handleDelete(node, _, context, safeOptions) {
   const tracker = track(safeOptions)
+  // To do: next major (?): use `delete` or `strikethrough`?
   const exit = context.enter('emphasis')
   let value = tracker.move('~~')
   value += containerPhrasing(node, context, {
