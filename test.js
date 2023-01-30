@@ -1,4 +1,5 @@
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
@@ -8,8 +9,8 @@ import {
   gfmStrikethroughToMarkdown
 } from './index.js'
 
-test('markdown -> mdast', (t) => {
-  t.deepEqual(
+test('gfmStrikethroughFromMarkdown', () => {
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a ~~b~~ c.', {
         extensions: [gfmStrikethrough()],
@@ -33,7 +34,7 @@ test('markdown -> mdast', (t) => {
     'should support strikethrough'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a ~~b\nc~~ d.', {
         extensions: [gfmStrikethrough()],
@@ -56,12 +57,10 @@ test('markdown -> mdast', (t) => {
     },
     'should support strikethrough w/ eols'
   )
-
-  t.end()
 })
 
-test('mdast -> markdown', (t) => {
-  t.deepEqual(
+test('gfmStrikethroughToMarkdown', () => {
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'paragraph',
@@ -77,7 +76,7 @@ test('mdast -> markdown', (t) => {
     'should serialize strikethrough'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'paragraph',
@@ -93,7 +92,7 @@ test('mdast -> markdown', (t) => {
     'should serialize strikethrough w/ eols'
   )
 
-  t.equal(
+  assert.equal(
     toMarkdown(
       {
         type: 'paragraph',
@@ -111,7 +110,7 @@ test('mdast -> markdown', (t) => {
     'should not escape tildes in a `destinationLiteral`'
   )
 
-  t.equal(
+  assert.equal(
     toMarkdown(
       {
         type: 'paragraph',
@@ -129,7 +128,7 @@ test('mdast -> markdown', (t) => {
     'should not escape tildes in a `destinationRaw`'
   )
 
-  t.equal(
+  assert.equal(
     toMarkdown(
       {
         type: 'paragraph',
@@ -148,7 +147,7 @@ test('mdast -> markdown', (t) => {
     'should not escape tildes in a `reference`'
   )
 
-  t.equal(
+  assert.equal(
     toMarkdown(
       {
         type: 'paragraph',
@@ -167,7 +166,7 @@ test('mdast -> markdown', (t) => {
     'should not escape tildes in a `title` (double quotes)'
   )
 
-  t.equal(
+  assert.equal(
     toMarkdown(
       {
         type: 'paragraph',
@@ -188,6 +187,4 @@ test('mdast -> markdown', (t) => {
     "[](# '~a')\n",
     'should not escape tildes in a `title` (single quotes)'
   )
-
-  t.end()
 })
