@@ -17,14 +17,15 @@ test('gfmStrikethroughFromMarkdown', () => {
     'should expose the public api'
   )
 
+  const tree = fromMarkdown('a ~~b~~ c.', {
+    extensions: [gfmStrikethrough()],
+    mdastExtensions: [gfmStrikethroughFromMarkdown]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a ~~b~~ c.', {
-        extensions: [gfmStrikethrough()],
-        mdastExtensions: [gfmStrikethroughFromMarkdown]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -41,14 +42,15 @@ test('gfmStrikethroughFromMarkdown', () => {
     'should support strikethrough'
   )
 
+  const treeB = fromMarkdown('a ~~b\nc~~ d.', {
+    extensions: [gfmStrikethrough()],
+    mdastExtensions: [gfmStrikethroughFromMarkdown]
+  })
+
+  removePosition(treeB, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a ~~b\nc~~ d.', {
-        extensions: [gfmStrikethrough()],
-        mdastExtensions: [gfmStrikethroughFromMarkdown]
-      }),
-      true
-    ),
+    treeB,
     {
       type: 'root',
       children: [
