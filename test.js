@@ -1,32 +1,33 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
-import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
 } from './index.js'
-import * as mod from './index.js'
 
-test('gfmStrikethroughFromMarkdown', () => {
-  assert.deepEqual(
-    Object.keys(mod).sort(),
-    ['gfmStrikethroughFromMarkdown', 'gfmStrikethroughToMarkdown'],
-    'should expose the public api'
-  )
-
-  const tree = fromMarkdown('a ~~b~~ c.', {
-    extensions: [gfmStrikethrough()],
-    mdastExtensions: [gfmStrikethroughFromMarkdown]
+test('core', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+      'gfmStrikethroughFromMarkdown',
+      'gfmStrikethroughToMarkdown'
+    ])
   })
+})
 
-  removePosition(tree, {force: true})
+test('gfmStrikethroughFromMarkdown', async function (t) {
+  await t.test('should support strikethrough', async function () {
+    const tree = fromMarkdown('a ~~b~~ c.', {
+      extensions: [gfmStrikethrough()],
+      mdastExtensions: [gfmStrikethroughFromMarkdown]
+    })
 
-  assert.deepEqual(
-    tree,
-    {
+    removePosition(tree, {force: true})
+
+    assert.deepEqual(tree, {
       type: 'root',
       children: [
         {
@@ -38,20 +39,18 @@ test('gfmStrikethroughFromMarkdown', () => {
           ]
         }
       ]
-    },
-    'should support strikethrough'
-  )
-
-  const treeB = fromMarkdown('a ~~b\nc~~ d.', {
-    extensions: [gfmStrikethrough()],
-    mdastExtensions: [gfmStrikethroughFromMarkdown]
+    })
   })
 
-  removePosition(treeB, {force: true})
+  await t.test('should support strikethrough w/ eols', async function () {
+    const tree = fromMarkdown('a ~~b\nc~~ d.', {
+      extensions: [gfmStrikethrough()],
+      mdastExtensions: [gfmStrikethroughFromMarkdown]
+    })
 
-  assert.deepEqual(
-    treeB,
-    {
+    removePosition(tree, {force: true})
+
+    assert.deepEqual(tree, {
       type: 'root',
       children: [
         {
@@ -63,137 +62,155 @@ test('gfmStrikethroughFromMarkdown', () => {
           ]
         }
       ]
-    },
-    'should support strikethrough w/ eols'
-  )
+    })
+  })
 })
 
-test('gfmStrikethroughToMarkdown', () => {
-  assert.deepEqual(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
-          {type: 'text', value: 'a '},
-          {type: 'delete', children: [{type: 'text', value: 'b'}]},
-          {type: 'text', value: ' c.'}
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    'a ~~b~~ c.\n',
-    'should serialize strikethrough'
-  )
+test('gfmStrikethroughToMarkdown', async function (t) {
+  await t.test('should serialize strikethrough', async function () {
+    assert.deepEqual(
+      toMarkdown(
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {type: 'delete', children: [{type: 'text', value: 'b'}]},
+            {type: 'text', value: ' c.'}
+          ]
+        },
+        {extensions: [gfmStrikethroughToMarkdown]}
+      ),
+      'a ~~b~~ c.\n'
+    )
+  })
 
-  assert.deepEqual(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
-          {type: 'text', value: 'a '},
-          {type: 'delete', children: [{type: 'text', value: 'b\nc'}]},
-          {type: 'text', value: ' d.'}
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    'a ~~b\nc~~ d.\n',
-    'should serialize strikethrough w/ eols'
-  )
+  await t.test('should serialize strikethrough w/ eols', async function () {
+    assert.deepEqual(
+      toMarkdown(
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {type: 'delete', children: [{type: 'text', value: 'b\nc'}]},
+            {type: 'text', value: ' d.'}
+          ]
+        },
+        {extensions: [gfmStrikethroughToMarkdown]}
+      ),
+      'a ~~b\nc~~ d.\n'
+    )
+  })
 
-  assert.equal(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
+  await t.test(
+    'should not escape tildes in a `destinationLiteral`',
+    async function () {
+      assert.equal(
+        toMarkdown(
           {
-            type: 'link',
-            url: '~a',
-            children: []
-          }
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    '[](~a)\n',
-    'should not escape tildes in a `destinationLiteral`'
+            type: 'paragraph',
+            children: [
+              {
+                type: 'link',
+                url: '~a',
+                children: []
+              }
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown]}
+        ),
+        '[](~a)\n'
+      )
+    }
   )
 
-  assert.equal(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
+  await t.test(
+    'should not escape tildes in a `destinationRaw`',
+    async function () {
+      assert.equal(
+        toMarkdown(
           {
-            type: 'link',
-            url: '~a',
-            children: [{type: 'text', value: 'link text'}]
-          }
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    '[link text](~a)\n',
-    'should not escape tildes in a `destinationRaw`'
+            type: 'paragraph',
+            children: [
+              {
+                type: 'link',
+                url: '~a',
+                children: [{type: 'text', value: 'link text'}]
+              }
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown]}
+        ),
+        '[link text](~a)\n'
+      )
+    }
   )
 
-  assert.equal(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
+  await t.test('should not escape tildes in a `reference`', async function () {
+    assert.equal(
+      toMarkdown(
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'linkReference',
+              identifier: '~a',
+              referenceType: 'full',
+              children: []
+            }
+          ]
+        },
+        {extensions: [gfmStrikethroughToMarkdown]}
+      ),
+      '[][~a]\n'
+    )
+  })
+
+  await t.test(
+    'should not escape tildes in a `title` (double quotes)',
+    async function () {
+      assert.equal(
+        toMarkdown(
           {
-            type: 'linkReference',
-            identifier: '~a',
-            referenceType: 'full',
-            children: []
-          }
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    '[][~a]\n',
-    'should not escape tildes in a `reference`'
+            type: 'paragraph',
+            children: [
+              {
+                type: 'link',
+                url: '#',
+                title: '~a',
+                children: []
+              }
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown]}
+        ),
+        '[](# "~a")\n'
+      )
+    }
   )
 
-  assert.equal(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
+  await t.test(
+    'should not escape tildes in a `title` (single quotes)',
+    async function () {
+      assert.equal(
+        toMarkdown(
           {
-            type: 'link',
-            url: '#',
-            title: '~a',
-            children: []
-          }
-        ]
-      },
-      {extensions: [gfmStrikethroughToMarkdown]}
-    ),
-    '[](# "~a")\n',
-    'should not escape tildes in a `title` (double quotes)'
-  )
-
-  assert.equal(
-    toMarkdown(
-      {
-        type: 'paragraph',
-        children: [
+            type: 'paragraph',
+            children: [
+              {
+                type: 'link',
+                url: '#',
+                title: '~a',
+                children: []
+              }
+            ]
+          },
           {
-            type: 'link',
-            url: '#',
-            title: '~a',
-            children: []
+            quote: "'",
+            extensions: [gfmStrikethroughToMarkdown]
           }
-        ]
-      },
-      {
-        quote: "'",
-        extensions: [gfmStrikethroughToMarkdown]
-      }
-    ),
-    "[](# '~a')\n",
-    'should not escape tildes in a `title` (single quotes)'
+        ),
+        "[](# '~a')\n"
+      )
+    }
   )
 })
