@@ -74,14 +74,14 @@ npm install mdast-util-gfm-strikethrough
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@1'
+import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@2'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@1?bundle'
+  import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'https://esm.sh/mdast-util-gfm-strikethrough@2?bundle'
 </script>
 ```
 

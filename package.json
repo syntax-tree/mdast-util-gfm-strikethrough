@@ -1,6 +1,6 @@
 {
   "name": "mdast-util-gfm-strikethrough",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "mdast extension to parse and serialize GFM strikethrough",
   "license": "MIT",
   "keywords": [
