@@ -17,8 +17,8 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`gfmStrikethroughFromMarkdown`](#gfmstrikethroughfrommarkdown)
-    *   [`gfmStrikethroughToMarkdown`](#gfmstrikethroughtomarkdown)
+    *   [`gfmStrikethroughFromMarkdown()`](#gfmstrikethroughfrommarkdown)
+    *   [`gfmStrikethroughToMarkdown()`](#gfmstrikethroughtomarkdown)
 *   [HTML](#html)
 *   [Syntax](#syntax)
 *   [Syntax tree](#syntax-tree)
@@ -106,12 +106,12 @@ const doc = await fs.readFile('example.md')
 
 const tree = fromMarkdown(doc, {
   extensions: [gfmStrikethrough()],
-  mdastExtensions: [gfmStrikethroughFromMarkdown]
+  mdastExtensions: [gfmStrikethroughFromMarkdown()]
 })
 
 console.log(tree)
 
-const out = toMarkdown(tree, {extensions: [gfmStrikethroughToMarkdown]})
+const out = toMarkdown(tree, {extensions: [gfmStrikethroughToMarkdown()]})
 
 console.log(out)
 ```
@@ -148,15 +148,25 @@ This package exports the identifiers
 [`gfmStrikethroughToMarkdown`][api-gfm-strikethrough-to-markdown].
 There is no default export.
 
-### `gfmStrikethroughFromMarkdown`
+### `gfmStrikethroughFromMarkdown()`
 
-Extension for [`mdast-util-from-markdown`][mdast-util-from-markdown] to enable
-GFM strikethrough ([`FromMarkdownExtension`][from-markdown-extension]).
+Create an extension for [`mdast-util-from-markdown`][mdast-util-from-markdown]
+to enable GFM strikethrough in markdown.
 
-### `gfmStrikethroughToMarkdown`
+###### Returns
 
-Extension for [`mdast-util-to-markdown`][mdast-util-to-markdown] to enable
-GFM strikethrough ([`ToMarkdownExtension`][to-markdown-extension]).
+Extension for `mdast-util-from-markdown` to enable GFM strikethrough
+([`FromMarkdownExtension`][from-markdown-extension]).
+
+### `gfmStrikethroughToMarkdown()`
+
+Create an extension for [`mdast-util-to-markdown`][mdast-util-to-markdown] to
+enable GFM strikethrough in markdown.
+
+###### Returns
+
+Extension for `mdast-util-to-markdown` to enable GFM strikethrough
+([`ToMarkdownExtension`][to-markdown-extension]).
 
 ## HTML
 

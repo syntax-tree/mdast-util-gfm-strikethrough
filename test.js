@@ -18,11 +18,11 @@ test('core', async function (t) {
   })
 })
 
-test('gfmStrikethroughFromMarkdown', async function (t) {
+test('gfmStrikethroughFromMarkdown()', async function (t) {
   await t.test('should support strikethrough', async function () {
     const tree = fromMarkdown('a ~~b~~ c.', {
       extensions: [gfmStrikethrough()],
-      mdastExtensions: [gfmStrikethroughFromMarkdown]
+      mdastExtensions: [gfmStrikethroughFromMarkdown()]
     })
 
     removePosition(tree, {force: true})
@@ -45,7 +45,7 @@ test('gfmStrikethroughFromMarkdown', async function (t) {
   await t.test('should support strikethrough w/ eols', async function () {
     const tree = fromMarkdown('a ~~b\nc~~ d.', {
       extensions: [gfmStrikethrough()],
-      mdastExtensions: [gfmStrikethroughFromMarkdown]
+      mdastExtensions: [gfmStrikethroughFromMarkdown()]
     })
 
     removePosition(tree, {force: true})
@@ -66,7 +66,7 @@ test('gfmStrikethroughFromMarkdown', async function (t) {
   })
 })
 
-test('gfmStrikethroughToMarkdown', async function (t) {
+test('gfmStrikethroughToMarkdown()', async function (t) {
   await t.test('should serialize strikethrough', async function () {
     assert.deepEqual(
       toMarkdown(
@@ -78,7 +78,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
             {type: 'text', value: ' c.'}
           ]
         },
-        {extensions: [gfmStrikethroughToMarkdown]}
+        {extensions: [gfmStrikethroughToMarkdown()]}
       ),
       'a ~~b~~ c.\n'
     )
@@ -95,7 +95,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
             {type: 'text', value: ' d.'}
           ]
         },
-        {extensions: [gfmStrikethroughToMarkdown]}
+        {extensions: [gfmStrikethroughToMarkdown()]}
       ),
       'a ~~b\nc~~ d.\n'
     )
@@ -116,7 +116,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
               }
             ]
           },
-          {extensions: [gfmStrikethroughToMarkdown]}
+          {extensions: [gfmStrikethroughToMarkdown()]}
         ),
         '[](~a)\n'
       )
@@ -138,7 +138,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
               }
             ]
           },
-          {extensions: [gfmStrikethroughToMarkdown]}
+          {extensions: [gfmStrikethroughToMarkdown()]}
         ),
         '[link text](~a)\n'
       )
@@ -159,7 +159,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
             }
           ]
         },
-        {extensions: [gfmStrikethroughToMarkdown]}
+        {extensions: [gfmStrikethroughToMarkdown()]}
       ),
       '[][~a]\n'
     )
@@ -181,7 +181,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
               }
             ]
           },
-          {extensions: [gfmStrikethroughToMarkdown]}
+          {extensions: [gfmStrikethroughToMarkdown()]}
         ),
         '[](# "~a")\n'
       )
@@ -206,7 +206,7 @@ test('gfmStrikethroughToMarkdown', async function (t) {
           },
           {
             quote: "'",
-            extensions: [gfmStrikethroughToMarkdown]
+            extensions: [gfmStrikethroughToMarkdown()]
           }
         ),
         "[](# '~a')\n"
