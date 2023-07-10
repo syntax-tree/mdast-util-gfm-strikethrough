@@ -97,10 +97,10 @@ Say our document `example.md` contains:
 
 ```js
 import fs from 'node:fs/promises'
-import {fromMarkdown} from 'mdast-util-from-markdown'
-import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
+import {fromMarkdown} from 'mdast-util-from-markdown'
 import {gfmStrikethroughFromMarkdown, gfmStrikethroughToMarkdown} from 'mdast-util-gfm-strikethrough'
+import {toMarkdown} from 'mdast-util-to-markdown'
 
 const doc = await fs.readFile('example.md')
 

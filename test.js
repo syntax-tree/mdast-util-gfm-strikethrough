@@ -2,19 +2,19 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {fromMarkdown} from 'mdast-util-from-markdown'
-import {toMarkdown} from 'mdast-util-to-markdown'
-import {removePosition} from 'unist-util-remove-position'
 import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
-} from './index.js'
+} from 'mdast-util-gfm-strikethrough'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {removePosition} from 'unist-util-remove-position'
 
 test('core', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
-      'gfmStrikethroughFromMarkdown',
-      'gfmStrikethroughToMarkdown'
-    ])
+    assert.deepEqual(
+      Object.keys(await import('mdast-util-gfm-strikethrough')).sort(),
+      ['gfmStrikethroughFromMarkdown', 'gfmStrikethroughToMarkdown']
+    )
   })
 })
 
