@@ -102,6 +102,53 @@ test('gfmStrikethroughToMarkdown()', async function (t) {
   })
 
   await t.test(
+    'should serialize nested strikethrough with a shorter inner run',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'delete',
+                children: [
+                  {type: 'text', value: 'a'},
+                  {type: 'delete', children: [{type: 'text', value: 'a'}]},
+                  {type: 'text', value: 'a'}
+                ]
+              }
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        '~~a~a~a~~\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should round-trip nested strikethrough with text siblings',
+    async function () {
+      const options = {
+        extensions: [gfmStrikethrough()],
+        mdastExtensions: [gfmStrikethroughFromMarkdown()]
+      }
+      const tree = fromMarkdown('~~a~a~a~~', options)
+
+      removePosition(tree, {force: true})
+
+      const output = toMarkdown(tree, {
+        extensions: [gfmStrikethroughToMarkdown()]
+      })
+      const roundTrip = fromMarkdown(output, options)
+
+      removePosition(roundTrip, {force: true})
+
+      assert.deepEqual(roundTrip, tree)
+    }
+  )
+
+  await t.test(
     'should not escape tildes in a `destinationLiteral`',
     async function () {
       assert.equal(
