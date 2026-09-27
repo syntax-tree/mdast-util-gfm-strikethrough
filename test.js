@@ -167,7 +167,65 @@ test('gfmStrikethroughToMarkdown()', async function (t) {
   )
 
   await t.test(
-    'should serialize strikethrough outside phrasing',
+    'should use single tildes for strikethrough in strikethrough if needed',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'delete',
+                children: [
+                  {type: 'text', value: 'a'},
+                  {type: 'delete', children: [{type: 'text', value: 'b'}]},
+                  {type: 'text', value: 'c'}
+                ]
+              }
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        '~~a~b~c~~\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should use single tildes for strikethrough in strikethrough (legacy)',
+    async function () {
+      const extension = gfmStrikethroughToMarkdown()
+      const handleDelete = extension.handlers?.delete
+      assert.ok(handleDelete)
+
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'delete',
+                children: [
+                  {type: 'text', value: 'a'},
+                  {type: 'delete', children: [{type: 'text', value: 'b'}]},
+                  {type: 'text', value: 'c'}
+                ]
+              }
+            ]
+          },
+          {
+            extensions: [
+              {...extension, handlers: {delete: handleDelete.bind(undefined)}}
+            ]
+          }
+        ),
+        '~~a~b~c~~\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should serialize strikethrough outside phrasing (legacy)',
     async function () {
       assert.equal(
         toMarkdown(
