@@ -269,82 +269,82 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/workflows/main/badge.svg
+[api-gfm-strikethrough-from-markdown]: #gfmstrikethroughfrommarkdown
 
-[build]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-gfm-strikethrough.svg
-
-[coverage]: https://codecov.io/github/syntax-tree/mdast-util-gfm-strikethrough
-
-[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-gfm-strikethrough.svg
-
-[downloads]: https://www.npmjs.com/package/mdast-util-gfm-strikethrough
-
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-gfm-strikethrough
-
-[size]: https://bundlejs.com/?q=mdast-util-gfm-strikethrough
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/syntax-tree/unist/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[esmsh]: https://esm.sh
-
-[typescript]: https://www.typescriptlang.org
-
-[license]: license
+[api-gfm-strikethrough-to-markdown]: #gfmstrikethroughtomarkdown
 
 [author]: https://wooorm.com
 
-[health]: https://github.com/syntax-tree/.github
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
 
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+[build]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/actions
 
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+[build-badge]: https://github.com/syntax-tree/mdast-util-gfm-strikethrough/workflows/main/badge.svg
+
+[chat]: https://github.com/syntax-tree/unist/discussions
+
+[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
 
 [coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
-[gfm]: https://github.github.com/gfm/
+[collective]: https://opencollective.com/unified
 
-[remark-gfm]: https://github.com/remarkjs/remark-gfm
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[mdast]: https://github.com/syntax-tree/mdast
+[coverage]: https://codecov.io/github/syntax-tree/mdast-util-gfm-strikethrough
 
-[dfn-transparent-content]: https://github.com/syntax-tree/mdast#transparentcontent
-
-[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
-
-[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
-
-[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
-
-[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
-
-[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
-
-[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
-
-[micromark]: https://github.com/micromark/micromark
-
-[extension]: https://github.com/micromark/micromark-extension-gfm-strikethrough
-
-[syntax]: https://github.com/micromark/micromark-extension-gfm-strikethrough#syntax
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-gfm-strikethrough.svg
 
 [dfn-parent]: https://github.com/syntax-tree/mdast#parent
 
 [dfn-phrasing-content]: #phrasingcontent-gfm-strikethrough
 
-[api-gfm-strikethrough-from-markdown]: #gfmstrikethroughfrommarkdown
+[dfn-transparent-content]: https://github.com/syntax-tree/mdast#transparentcontent
 
-[api-gfm-strikethrough-to-markdown]: #gfmstrikethroughtomarkdown
+[downloads]: https://www.npmjs.com/package/mdast-util-gfm-strikethrough
+
+[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-gfm-strikethrough.svg
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[extension]: https://github.com/micromark/micromark-extension-gfm-strikethrough
+
+[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
+
+[gfm]: https://github.github.com/gfm/
+
+[health]: https://github.com/syntax-tree/.github
+
+[license]: license
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+
+[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
+[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
+
+[micromark]: https://github.com/micromark/micromark
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[remark-gfm]: https://github.com/remarkjs/remark-gfm
+
+[size]: https://bundlejs.com/?q=mdast-util-gfm-strikethrough
+
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-gfm-strikethrough
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[syntax]: https://github.com/micromark/micromark-extension-gfm-strikethrough#syntax
+
+[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
+
+[typescript]: https://www.typescriptlang.org

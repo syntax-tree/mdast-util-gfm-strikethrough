@@ -60,11 +60,7 @@
   },
   "remarkConfig": {
     "plugins": [
-      "remark-preset-wooorm",
-      [
-        "remark-lint-definition-sort",
-        false
-      ]
+      "remark-preset-wooorm"
     ]
   },
   "repository": "syntax-tree/mdast-util-gfm-strikethrough",
