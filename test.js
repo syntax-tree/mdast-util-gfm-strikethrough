@@ -102,6 +102,88 @@ test('gfmStrikethroughToMarkdown()', async function (t) {
   })
 
   await t.test(
+    'should encode a character before strikethrough if needed',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {type: 'text', value: 'a'},
+              {type: 'delete', children: [{type: 'text', value: '.b'}]},
+              {type: 'text', value: 'c'}
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        '&#x61;~~.b~~c\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should encode a character after strikethrough if needed',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {type: 'text', value: 'a'},
+              {type: 'delete', children: [{type: 'text', value: 'b.'}]},
+              {type: 'text', value: 'c'}
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        'a~~b.~~&#x63;\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should encode characters around strikethrough w/ emphasis',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'paragraph',
+            children: [
+              {type: 'text', value: 'a'},
+              {
+                type: 'delete',
+                children: [
+                  {type: 'emphasis', children: [{type: 'text', value: 'b'}]}
+                ]
+              },
+              {type: 'text', value: 'c'}
+            ]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        '&#x61;~~*b*~~&#x63;\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should serialize strikethrough outside phrasing',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'blockquote',
+            // @ts-expect-error: check how the runtime handles phrasing in flow.
+            children: [{type: 'delete', children: [{type: 'text', value: 'a'}]}]
+          },
+          {extensions: [gfmStrikethroughToMarkdown()]}
+        ),
+        '> ~~a~~\n'
+      )
+    }
+  )
+
+  await t.test(
     'should not escape tildes in a `destinationLiteral`',
     async function () {
       assert.equal(
