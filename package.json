@@ -1,47 +1,14 @@
 {
-  "name": "mdast-util-gfm-strikethrough",
-  "version": "2.0.0",
-  "description": "mdast extension to parse and serialize GFM strikethrough",
-  "license": "MIT",
-  "keywords": [
-    "unist",
-    "mdast",
-    "mdast-util",
-    "util",
-    "utility",
-    "markdown",
-    "markup",
-    "strikethrough",
-    "strike",
-    "through",
-    "del",
-    "delete",
-    "deletion",
-    "gfm"
-  ],
-  "repository": "syntax-tree/mdast-util-gfm-strikethrough",
   "bugs": "https://github.com/syntax-tree/mdast-util-gfm-strikethrough/issues",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/unified"
-  },
-  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts",
-    "index.js"
   ],
   "dependencies": {
     "@types/mdast": "^4.0.0",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-to-markdown": "^2.0.0"
   },
+  "description": "mdast extension to parse and serialize GFM strikethrough",
   "devDependencies": {
     "@types/node": "^26.0.0",
     "c8": "^12.0.0",
@@ -54,16 +21,35 @@
     "unist-util-remove-position": "^5.0.0",
     "xo": "^5.0.0"
   },
-  "scripts": {
-    "prepack": "npm run build && npm run format",
-    "build": "tsc --build --clean && tsc --build && type-coverage",
-    "format": "remark . -qfo && prettier . -w --log-level warn && xo --fix",
-    "test-api-prod": "node --conditions production test.js",
-    "test-api-dev": "node --conditions development test.js",
-    "test-api": "npm run test-api-dev && npm run test-api-prod",
-    "test-coverage": "c8 --100 --reporter lcov npm run test-api",
-    "test": "npm run build && npm run format && npm run test-coverage"
+  "exports": "./index.js",
+  "files": [
+    "lib/",
+    "index.d.ts",
+    "index.js"
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
   },
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "keywords": [
+    "delete",
+    "deletion",
+    "del",
+    "gfm",
+    "markdown",
+    "markup",
+    "mdast-util",
+    "mdast",
+    "strikethrough",
+    "strike",
+    "through",
+    "unist",
+    "utility",
+    "util"
+  ],
+  "license": "MIT",
+  "name": "mdast-util-gfm-strikethrough",
   "prettier": {
     "bracketSpacing": false,
     "semi": false,
@@ -81,10 +67,22 @@
       ]
     ]
   },
+  "repository": "syntax-tree/mdast-util-gfm-strikethrough",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
+    "prepack": "npm run build && npm run format",
+    "test-api-dev": "node --conditions development test.js",
+    "test-api-prod": "node --conditions production test.js",
+    "test-api": "npm run test-api-dev && npm run test-api-prod",
+    "test-coverage": "c8 --100 --reporter lcov -- npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
+  "sideEffects": false,
   "typeCoverage": {
     "atLeast": 100,
-    "detail": true,
-    "ignoreCatch": true,
     "strict": true
-  }
+  },
+  "type": "module",
+  "version": "2.0.0"
 }
