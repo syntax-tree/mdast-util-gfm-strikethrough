@@ -2,12 +2,12 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {gfmStrikethrough} from 'micromark-extension-gfm-strikethrough'
 import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {removePosition} from 'unist-util-remove-position'
 import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
 } from 'mdast-util-gfm-strikethrough'
-import {toMarkdown} from 'mdast-util-to-markdown'
-import {removePosition} from 'unist-util-remove-position'
 
 test('core', async function (t) {
   await t.test('should expose the public api', async function () {
@@ -68,7 +68,7 @@ test('gfmStrikethroughFromMarkdown()', async function (t) {
 
 test('gfmStrikethroughToMarkdown()', async function (t) {
   await t.test('should serialize strikethrough', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'paragraph',
@@ -85,7 +85,7 @@ test('gfmStrikethroughToMarkdown()', async function (t) {
   })
 
   await t.test('should serialize strikethrough w/ eols', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'paragraph',
