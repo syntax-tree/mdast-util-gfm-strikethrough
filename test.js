@@ -204,10 +204,7 @@ test('gfmStrikethroughToMarkdown()', async function (t) {
               }
             ]
           },
-          {
-            quote: "'",
-            extensions: [gfmStrikethroughToMarkdown()]
-          }
+          {extensions: [gfmStrikethroughToMarkdown()], quote: "'"}
         ),
         "[](# '~a')\n"
       )
