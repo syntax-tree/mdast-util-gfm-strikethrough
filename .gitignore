@@ -1,8 +1,8 @@
+.DS_Store
+*.d.ts
+*.log
+*.tsbuildinfo
 coverage/
 node_modules/
-*.log
-*.d.ts
-.DS_Store
 yarn.lock
 !/index.d.ts
-*.tsbuildinfo
